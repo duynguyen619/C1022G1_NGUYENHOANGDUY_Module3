@@ -15,10 +15,12 @@ VALUES (1, 'Toán', 45, 'Nguyễn Thái Học'),
 (4, 'Địa', 76, 'Lê Văn Hiến'),
 (5, 'Hoá', 32, 'Hà Văn Minh');
 
-
+set sql_safe_updates = 0;
 update books
 set title='Sử',page_size =50
 where id = 3;
 
 delete from books
 where id=5;
+
+drop database book_management;
