@@ -13,7 +13,7 @@ id int primary key,
 student_id int,
 foreign key (student_id) references student(id),
 book_id int,
-foreign key (book_id) references student(id),
+foreign key (book_id) references books(id),
 borrow_date varchar(45),
 return_date varchar(45)
 );
@@ -29,7 +29,7 @@ id int primary key,
 );
 
 create table books (
-id int,
+id int primary key,
 title varchar(45),
 page_size varchar(45),
 authors_id int,
