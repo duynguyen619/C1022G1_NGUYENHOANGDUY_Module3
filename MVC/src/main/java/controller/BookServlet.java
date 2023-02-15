@@ -2,7 +2,6 @@ package controller;
 
 import model.Books;
 import service.IBookService;
-import service.impl.BookService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,10 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-
-@WebServlet(name = "BookServlet",urlPatterns = "/books")
+@WebServlet(name = "BookServlet", urlPatterns = "/books")
 public class BookServlet extends HttpServlet {
-    IBookService bookService = new BookService();
+    IBookService bookService= (IBookService) new BookServlet();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
@@ -52,16 +50,21 @@ public class BookServlet extends HttpServlet {
                 insert(request, response);
                 break;
             case "edit":
-                update(request, response);
                 break;
+            default:
+                showList(request,response);
         }
     }
 
+    private void showList(HttpServletRequest request, HttpServletResponse response) {
+request.setAttribute("bookList",bookService.showList());
+    }
+
     private void findAll(HttpServletRequest request, HttpServletResponse response) {
-        List<Books> bookList =bookService.showAll();
+        List<Books> bookList = bookService.showAll();
         request.setAttribute("bookList", bookList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/book/list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/list");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
@@ -101,7 +104,6 @@ public class BookServlet extends HttpServlet {
         String author = request.getParameter("author");
         String category = request.getParameter("category");
 
-
         Books books = new Books(id,title,pagesize,author,category);
         Map<String, String> errors = bookService.add(books);
         if (errors.isEmpty()) {
@@ -113,13 +115,12 @@ public class BookServlet extends HttpServlet {
             request.setAttribute("author", author);
             request.setAttribute("category", category);
 
-
             request.setAttribute("mess", "thêm mới thất bại");
             request.setAttribute("bookList", booksList);
             request.setAttribute("errors", errors);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/book/add.jsp ");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/add.jsp ");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
@@ -127,9 +128,5 @@ public class BookServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    private void update(HttpServletRequest request, HttpServletResponse response) {
     }
 }

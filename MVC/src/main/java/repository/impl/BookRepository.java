@@ -14,6 +14,31 @@ import java.util.List;
 public class BookRepository implements IBookRepository {
     private static final String SELECT_BY_ID = "select * from book where id = ?";
     private static final String INSERT_BOOK_SQL ="insert into book(title, page_size, author, category) values(?,?,?,?)";
+    private static final String FINDALL ="select * from books " ;
+
+    @Override
+    public List<Books> showList() {
+        List<Books> bookList = new ArrayList<>();
+        Connection connection = BaseRepository.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FINDALL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                int pageSize = resultSet.getInt("pageSize");
+                String author = resultSet.getString("author");
+                String category = resultSet.getString("category");
+                Books book1 = new Books(id, title, pageSize, author, category);
+                bookList.add(book1);
+            }
+            resultSet.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return bookList;
+    }
 
     @Override
     public List<Books> showAll() {
@@ -22,7 +47,7 @@ public class BookRepository implements IBookRepository {
         Connection connection = BaseRepository.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("select * from book");
+            preparedStatement = connection.prepareStatement("select * from books");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int bookId = Integer.parseInt(resultSet.getString("id"));

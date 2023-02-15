@@ -19,11 +19,11 @@
 <center>
     <h1>BOOK MANAGEMENT</h1>
     <h2>
-        <a href="/book?action=create">Add New Book</a>
+        <a href="/books?action=create">Add New Book</a>
     </h2>
 </center>
 <div class="d-flex justify-content: center">
-    <form class="d-flex" action="/book?action=search" method="post">
+    <form class="d-flex" action="/books?action=search" method="post">
         <input class="form-control me-2" style="width: 300px" type="search" placeholder="Search" aria-label="Search"
                name="title"
                value="${book.title}">
@@ -50,7 +50,7 @@
                 <td>${book.category}</td>
                 <td>
                     <button>
-                        <a style="color: cadetblue" href="/book?action=edit&id=${book.id}">Edit</a>
+                        <a style="color: cadetblue" href="/books?action=edit&id=${book.id}">Edit</a>
                     </button>
                 </td>
                 <td>

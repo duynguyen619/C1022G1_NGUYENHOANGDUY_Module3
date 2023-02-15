@@ -6,8 +6,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseRepository {
-    private static final String URL = "jdbc:mysql://localhost:3306/book_manage?useSSL=false";
-    private static final String USER = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/book_management";
+    private static final String USER = "Duy Nguyen";
     private static final String PASSWORD = "06062001";
 
     public static Connection getConnection() {

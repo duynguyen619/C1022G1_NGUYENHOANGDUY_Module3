@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IBookService {
+    List<Books> showList();
     List<Books> showAll();
     List<Books> find();
     List<Books> delete();
